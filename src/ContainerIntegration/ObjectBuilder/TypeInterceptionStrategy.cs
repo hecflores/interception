@@ -2,16 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Unity.Build;
 using Unity.Builder;
 using Unity.Builder.Selection;
 using Unity.Builder.Strategy;
 using Unity.Interception.InterceptionBehaviors;
 using Unity.Interception.Interceptors;
-using Unity.Interception.Interceptors.TypeInterceptors.VirtualMethodInterception;
-using Unity.Lifetime;
 using Unity.Policy;
-using Unity.Registration;
-using Unity.Strategy;
 
 namespace Unity.Interception.ContainerIntegration.ObjectBuilder
 {
@@ -191,7 +188,7 @@ namespace Unity.Interception.ContainerIntegration.ObjectBuilder
 
                 SelectedConstructor newConstructor = new SelectedConstructor(newConstructorInfo);
 
-                foreach (IResolverPolicy resolver in originalConstructor.GetParameterResolvers())
+                foreach (ResolverDelegate resolver in originalConstructor.GetParameterResolvers())
                 {
                     newConstructor.AddParameterResolver(resolver);
                 }

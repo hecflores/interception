@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.Practices.Unity.TestSupport;
+using Unity.Build;
 using Unity.Builder;
 using Unity.Builder.Strategy;
 using Unity.Container.Lifetime;
@@ -102,7 +103,7 @@ namespace Unity.Interception.Tests.TestSupport
             resolverOverrides.AddRange(newOverrides);
         }
 
-        public IResolverPolicy GetOverriddenResolver(Type dependencyType)
+        public ResolverDelegate GetOverriddenResolver(Type dependencyType)
         {
             return resolverOverrides.GetResolver(this, dependencyType);
         }
