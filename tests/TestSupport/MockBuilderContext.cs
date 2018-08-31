@@ -65,11 +65,6 @@ namespace Unity.Interception.Tests.TestSupport
             get { return strategies; }
         }
 
-        IStrategyChain IBuilderContext.Strategies
-        {
-            get { return strategies; }
-        }
-
         public INamedType BuildKey
         {
             get { return buildKey; }
@@ -133,7 +128,7 @@ namespace Unity.Interception.Tests.TestSupport
         public object NewBuildUp(INamedType newBuildKey)
         {
             var clone = CloneForNewBuild(newBuildKey, null);
-            return clone.Strategies.ExecuteBuildUp(clone);
+            return ((MockBuilderContext)clone).Strategies.ExecuteBuildUp(clone);
         }
 
         public object ExecuteBuildUp(INamedType buildKey, object existing)
