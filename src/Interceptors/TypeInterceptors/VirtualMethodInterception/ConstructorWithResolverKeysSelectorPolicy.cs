@@ -1,7 +1,5 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
-
+﻿using Unity.Build.Selection;
 using Unity.Builder;
-using Unity.Builder.Selection;
 using Unity.Policy;
 
 namespace Unity.Interception.Interceptors.TypeInterceptors.VirtualMethodInterception
