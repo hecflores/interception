@@ -7,6 +7,7 @@ using Unity.Interception.InterceptionBehaviors;
 using Unity.Interception.Utilities;
 using Unity.Lifetime;
 using Unity.Policy;
+using Unity.Policy.Lifetime;
 
 namespace Unity.Interception.ContainerIntegration
 {
