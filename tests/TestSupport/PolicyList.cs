@@ -73,17 +73,15 @@ namespace Unity.Interception.Tests.TestSupport
         }
 
 
-        public object Get(Type type, string name, Type policyInterface, out IPolicyList list)
+        public object Get(Type type, string name, Type policyInterface)
         {
-            list = null;
 
             if (_policies.TryGetValue(new PolicyKey(type, name, policyInterface), out var policy))
             {
-                list = this;
                 return policy;
             }
 
-            return _innerPolicyList?.Get(type, name, policyInterface, out list);
+            return _innerPolicyList?.Get(type, name, policyInterface);
         }
 
 
