@@ -103,7 +103,7 @@ namespace Unity.Interception.ContainerIntegration.ObjectBuilder
                 (EffectiveInterceptionBehaviorsPolicy)context.Policies
                                                              .Get(context.OriginalBuildKey.Type, 
                                                                   context.OriginalBuildKey.Name, 
-                                               typeof(EffectiveInterceptionBehaviorsPolicy), out _);
+                                               typeof(EffectiveInterceptionBehaviorsPolicy));
             if (effectiveInterceptionBehaviorsPolicy == null)
             {
                 return;
@@ -119,34 +119,14 @@ namespace Unity.Interception.ContainerIntegration.ObjectBuilder
         private static TPolicy FindInterceptionPolicy<TPolicy>(IBuilderContext context)
             where TPolicy : class, IBuilderPolicy
         {
-            return (TPolicy)context.Policies.GetOrDefault(typeof(TPolicy), context.OriginalBuildKey, out _) ??
-                   (TPolicy)context.Policies.GetOrDefault(typeof(TPolicy), context.OriginalBuildKey.Type, out _);
+            return (TPolicy)context.Policies.GetOrDefault(typeof(TPolicy), context.OriginalBuildKey) ??
+                   (TPolicy)context.Policies.GetOrDefault(typeof(TPolicy), context.OriginalBuildKey.Type);
         }
 
         #endregion
 
 
-        #region IRegisterTypeStrategy
-
-        //public void RegisterType(IContainerContext context, Type typeFrom, Type typeTo, string name, 
-        //                         LifetimeManager lifetimeManager, params InjectionMember[] injectionMembers)
-        //{
-        //    Type typeToBuild = typeFrom ?? typeTo;
-
-        //    var policy = (ITypeInterceptionPolicy)(context.Policies.Get(typeToBuild, name, typeof(ITypeInterceptionPolicy), out _) ??
-        //                                           context.Policies.Get(typeToBuild, string.Empty, typeof(ITypeInterceptionPolicy), out _));
-        //    if (policy == null) return;
-
-        //    var interceptor = policy.GetInterceptor(context.Container);
-        //    if (typeof(VirtualMethodInterceptor) == interceptor?.GetType())
-        //        context.Policies.Set(typeToBuild, name, typeof(IBuildPlanPolicy), new OverriddenBuildPlanMarkerPolicy());
-        //}
-
-        #endregion
-
-
         #region Nested Types
-
 
         private class EffectiveInterceptionBehaviorsPolicy : IBuilderPolicy
         {
