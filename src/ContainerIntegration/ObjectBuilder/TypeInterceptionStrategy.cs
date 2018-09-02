@@ -180,8 +180,7 @@ namespace Unity.Interception.ContainerIntegration.ObjectBuilder
             {
                 var currentSelectorPolicy =
                     (IConstructorSelectorPolicy)context.Policies.GetOrDefault(typeof(IConstructorSelectorPolicy),
-                                                                              context.OriginalBuildKey,
-                                                                              out var selectorPolicyDestination);
+                                                                              context.OriginalBuildKey);
                 if (!(currentSelectorPolicy is DerivedTypeConstructorSelectorPolicy currentDerivedTypeSelectorPolicy))
                 {
                     context.Registration.Set(typeof(IConstructorSelectorPolicy),
