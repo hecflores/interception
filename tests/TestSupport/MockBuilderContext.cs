@@ -1,9 +1,7 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
-
+﻿using Microsoft.Practices.Unity.TestSupport;
 using System;
 using System.Collections.Generic;
-using Microsoft.Practices.Unity.TestSupport;
-using Unity.Build;
+using Unity.Build.Delegates;
 using Unity.Builder;
 using Unity.Builder.Strategy;
 using Unity.Container.Lifetime;
@@ -11,7 +9,6 @@ using Unity.Exceptions;
 using Unity.Lifetime;
 using Unity.Policy;
 using Unity.Resolution;
-using Unity.Strategy;
 using Unity.Utility;
 
 namespace Unity.Interception.Tests.TestSupport
