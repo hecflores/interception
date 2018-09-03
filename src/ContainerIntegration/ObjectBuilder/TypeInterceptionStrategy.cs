@@ -89,7 +89,6 @@ namespace Unity.Interception.ContainerIntegration.ObjectBuilder
         /// <remarks>In this class, PostBuildUp checks to see if the object was proxyable,
         /// and if it was, wires up the handlers.</remarks>
         /// <param name="context">Context of the build operation.</param>
-        /// <param name="pre"></param>
         public override void PostBuildUp(IBuilderContext context)
         {
             IInterceptingProxy proxy = context.Existing as IInterceptingProxy;
@@ -138,26 +137,24 @@ namespace Unity.Interception.ContainerIntegration.ObjectBuilder
             public IEnumerable<IInterceptionBehavior> Behaviors { get; set; }
         }
 
-        private class DerivedTypeConstructorSelectorPolicy : IConstructorSelectorPolicy
+        private class DerivedTypeConstructorSelectorPolicy
         {
             internal readonly Type _interceptingType;
-            internal readonly IConstructorSelectorPolicy _originalConstructorSelectorPolicy;
+            internal readonly SelectConstructorDelegate _originalConstructorSelectorPolicy;
 
-            internal DerivedTypeConstructorSelectorPolicy(
-                Type interceptingType,
-                IConstructorSelectorPolicy originalConstructorSelectorPolicy)
+            internal DerivedTypeConstructorSelectorPolicy(Type interceptingType,
+                SelectConstructorDelegate originalConstructorSelectorPolicy)
             {
                 _interceptingType = interceptingType;
                 _originalConstructorSelectorPolicy = originalConstructorSelectorPolicy;
             }
 
-            public SelectedConstructor SelectConstructor(IBuilderContext context)
+            public virtual SelectConstructorDelegate SelectDelegate => context =>
             {
-                SelectedConstructor originalConstructor =
-                    _originalConstructorSelectorPolicy.SelectConstructor(context);
+                SelectedConstructor originalConstructor = _originalConstructorSelectorPolicy(context);
 
                 return FindNewConstructor(originalConstructor, _interceptingType);
-            }
+            };
 
             private static SelectedConstructor FindNewConstructor(SelectedConstructor originalConstructor, Type interceptingType)
             {
@@ -178,21 +175,18 @@ namespace Unity.Interception.ContainerIntegration.ObjectBuilder
 
             public static void SetPolicyForInterceptingType(IBuilderContext context, Type interceptingType)
             {
-                var currentSelectorPolicy =
-                    (IConstructorSelectorPolicy)context.Policies.GetOrDefault(typeof(IConstructorSelectorPolicy),
-                                                                              context.OriginalBuildKey);
-                if (!(currentSelectorPolicy is DerivedTypeConstructorSelectorPolicy currentDerivedTypeSelectorPolicy))
+                var currentSelectorPolicy = (SelectConstructorDelegate)context.Policies.GetOrDefault(typeof(SelectConstructorDelegate),
+                                                                       context.OriginalBuildKey);
+                if (!(currentSelectorPolicy.Target is DerivedTypeConstructorSelectorPolicy currentDerivedTypeSelectorPolicy))
                 {
-                    context.Registration.Set(typeof(IConstructorSelectorPolicy),
-                                                  new DerivedTypeConstructorSelectorPolicy(
-                                                      interceptingType, currentSelectorPolicy));
+                    context.Registration.Set(typeof(SelectConstructorDelegate),
+                                             new DerivedTypeConstructorSelectorPolicy(interceptingType, currentSelectorPolicy).SelectDelegate);
                 }
                 else if (currentDerivedTypeSelectorPolicy._interceptingType != interceptingType)
                 {
-                    context.Registration.Set(typeof(IConstructorSelectorPolicy),
-                                                  new DerivedTypeConstructorSelectorPolicy(
-                                                      interceptingType,
-                                                      currentDerivedTypeSelectorPolicy._originalConstructorSelectorPolicy));
+                    context.Registration.Set(typeof(SelectConstructorDelegate),
+                                                  new DerivedTypeConstructorSelectorPolicy(interceptingType, 
+                                                      currentDerivedTypeSelectorPolicy._originalConstructorSelectorPolicy).SelectDelegate);
                 }
             }
         }

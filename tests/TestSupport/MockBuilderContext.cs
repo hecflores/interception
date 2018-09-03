@@ -9,6 +9,7 @@ using Unity.Exceptions;
 using Unity.Lifetime;
 using Unity.Policy;
 using Unity.Resolution;
+using Unity.Storage;
 using Unity.Utility;
 
 namespace Unity.Interception.Tests.TestSupport

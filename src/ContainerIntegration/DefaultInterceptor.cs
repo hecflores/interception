@@ -1,14 +1,12 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
-
-using System;
+﻿using System;
 using Unity.Builder;
 using Unity.Interception.ContainerIntegration.ObjectBuilder;
 using Unity.Interception.Interceptors;
 using Unity.Interception.Interceptors.InstanceInterceptors;
 using Unity.Interception.Interceptors.TypeInterceptors;
 using Unity.Interception.Utilities;
-using Unity.Policy;
 using Unity.Registration;
+using Unity.Storage;
 
 namespace Unity.Interception.ContainerIntegration
 {
