@@ -151,7 +151,7 @@ namespace Unity.Interception.ContainerIntegration.ObjectBuilder
 
             public virtual SelectConstructorDelegate SelectDelegate => context =>
             {
-                SelectedConstructor originalConstructor = _originalConstructorSelectorPolicy(context);
+                SelectedConstructor originalConstructor = (SelectedConstructor)_originalConstructorSelectorPolicy(context);
 
                 return FindNewConstructor(originalConstructor, _interceptingType);
             };

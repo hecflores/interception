@@ -1,16 +1,12 @@
-﻿using System;
-using Unity.Registration;
-using Unity.Storage;
+﻿using Unity.Registration;
 
 namespace Unity.Interception.ContainerIntegration
 {
     /// <summary>
     /// Stores information about a an intercepted object and configures a container accordingly.
     /// </summary>
-    public abstract class InterceptionMember : IInjectionMember
+    public abstract class InterceptionMember : InjectionMember
     {
-        public abstract void AddPolicies(Type serviceType, Type implementationType, string name, IPolicyList policies);
-
-        public virtual bool BuildRequired { get; } = false;
+        public override bool BuildRequired { get; } = false;
     }
 }

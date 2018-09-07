@@ -11,13 +11,13 @@ using Unity.Storage;
 namespace Unity.Interception.ContainerIntegration
 {
     /// <summary>
-    /// A <see cref="IInjectionMember"/> that can be passed to the
+    /// A <see cref="InjectionMember"/> that can be passed to the
     /// <see cref="IUnityContainer.RegisterType"/> method to specify
     /// which interceptor to use. This member sets up the default
     /// interceptor for a type - this will be used regardless of which 
     /// name is used to resolve the type.
     /// </summary>
-    public class DefaultInterceptor : IInjectionMember
+    public class DefaultInterceptor : InjectionMember
     {
         private readonly IInterceptor _interceptor;
         private readonly NamedTypeBuildKey _interceptorKey;
@@ -68,7 +68,7 @@ namespace Unity.Interception.ContainerIntegration
         /// <param name="implementationType">Type of concrete type being registered.</param>
         /// <param name="name">Name used to resolve the type object.</param>
         /// <param name="policies">Policy list to add policies to.</param>
-        public virtual void AddPolicies(Type serviceType, Type implementationType, string name, IPolicyList policies)
+        public override void AddPolicies(Type serviceType, Type implementationType, string name, IPolicyList policies)
         {
             if (IsInstanceInterceptor)
             {
@@ -80,7 +80,7 @@ namespace Unity.Interception.ContainerIntegration
             }
         }
 
-        public virtual bool BuildRequired { get; } = false;
+        public override bool BuildRequired { get; } = false;
 
         private bool IsInstanceInterceptor
         {
