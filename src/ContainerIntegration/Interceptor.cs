@@ -1,4 +1,5 @@
 ﻿using System;
+using Unity.Build.Policy;
 using Unity.Interception.ContainerIntegration.ObjectBuilder;
 using Unity.Interception.Interceptors;
 using Unity.Interception.Interceptors.InstanceInterceptors;
@@ -80,8 +81,6 @@ namespace Unity.Interception.ContainerIntegration
                 policies.Clear(serviceType, name, typeof(IInstanceInterceptionPolicy));
             }
         }
-
-        public override bool BuildRequired => _type == typeof(VirtualMethodInterceptor);
 
         private bool IsInstanceInterceptor
         {

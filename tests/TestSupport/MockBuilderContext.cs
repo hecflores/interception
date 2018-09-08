@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using Unity.Build.Delegates;
+using Unity.Build.Policy;
 using Unity.Builder;
 using Unity.Builder.Strategy;
 using Unity.Container.Lifetime;
@@ -85,7 +86,7 @@ namespace Unity.Interception.Tests.TestSupport
 
         public IBuilderContext ParentContext => throw new NotImplementedException();
 
-        public IRequiresRecovery RequiresRecovery { get; set; }
+        public IRequireRecovery RequireRecovery { get; set; }
 
         public BuilderStrategy[] BuildChain => throw new NotImplementedException();
 

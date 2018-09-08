@@ -80,7 +80,6 @@ namespace Unity.Interception.ContainerIntegration
             }
         }
 
-        public override bool BuildRequired { get; } = false;
 
         private bool IsInstanceInterceptor
         {

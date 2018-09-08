@@ -7,6 +7,5 @@ namespace Unity.Interception.ContainerIntegration
     /// </summary>
     public abstract class InterceptionMember : InjectionMember
     {
-        public override bool BuildRequired { get; } = false;
     }
 }
