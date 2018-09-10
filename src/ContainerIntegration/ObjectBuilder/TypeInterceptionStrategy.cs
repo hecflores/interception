@@ -140,16 +140,16 @@ namespace Unity.Interception.ContainerIntegration.ObjectBuilder
         private class DerivedTypeConstructorSelectorPolicy
         {
             internal readonly Type _interceptingType;
-            internal readonly SelectConstructorDelegate _originalConstructorSelectorPolicy;
+            internal readonly SelectCtorDelegate _originalConstructorSelectorPolicy;
 
             internal DerivedTypeConstructorSelectorPolicy(Type interceptingType,
-                SelectConstructorDelegate originalConstructorSelectorPolicy)
+                SelectCtorDelegate originalConstructorSelectorPolicy)
             {
                 _interceptingType = interceptingType;
                 _originalConstructorSelectorPolicy = originalConstructorSelectorPolicy;
             }
 
-            public virtual SelectConstructorDelegate SelectDelegate => context =>
+            public virtual SelectCtorDelegate SelectDelegate => context =>
             {
                 SelectedConstructor originalConstructor = (SelectedConstructor)_originalConstructorSelectorPolicy(context);
 
@@ -175,16 +175,16 @@ namespace Unity.Interception.ContainerIntegration.ObjectBuilder
 
             public static void SetPolicyForInterceptingType(IBuilderContext context, Type interceptingType)
             {
-                var currentSelectorPolicy = (SelectConstructorDelegate)context.Policies.GetOrDefault(typeof(SelectConstructorDelegate),
+                var currentSelectorPolicy = (SelectCtorDelegate)context.Policies.GetOrDefault(typeof(SelectCtorDelegate),
                                                                        context.OriginalBuildKey);
                 if (!(currentSelectorPolicy.Target is DerivedTypeConstructorSelectorPolicy currentDerivedTypeSelectorPolicy))
                 {
-                    context.Registration.Set(typeof(SelectConstructorDelegate),
+                    context.Registration.Set(typeof(SelectCtorDelegate),
                                              new DerivedTypeConstructorSelectorPolicy(interceptingType, currentSelectorPolicy).SelectDelegate);
                 }
                 else if (currentDerivedTypeSelectorPolicy._interceptingType != interceptingType)
                 {
-                    context.Registration.Set(typeof(SelectConstructorDelegate),
+                    context.Registration.Set(typeof(SelectCtorDelegate),
                                                   new DerivedTypeConstructorSelectorPolicy(interceptingType, 
                                                       currentDerivedTypeSelectorPolicy._originalConstructorSelectorPolicy).SelectDelegate);
                 }
