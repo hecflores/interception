@@ -77,8 +77,8 @@ namespace Unity.Interception.ContainerIntegration.ObjectBuilder
             where T : class, IBuilderPolicy
         {
             // First, try for an original build key
-            var policy = (T)context.Policies.GetOrDefault(typeof(T), context.OriginalBuildKey, out _) ??
-                         (T)context.Policies.GetOrDefault(typeof(T), context.OriginalBuildKey.Type, out _);
+            var policy = (T)context.Policies.GetOrDefault(typeof(T), context.OriginalBuildKey) ??
+                         (T)context.Policies.GetOrDefault(typeof(T), context.OriginalBuildKey.Type);
 
             if (policy != null)
             {
@@ -91,8 +91,8 @@ namespace Unity.Interception.ContainerIntegration.ObjectBuilder
             }
 
             // Next, try the build type
-            policy = (T)context.Policies.GetOrDefault(typeof(T), context.BuildKey, out _) ??
-                     (T)context.Policies.GetOrDefault(typeof(T), context.BuildKey.Type, out _);
+            policy = (T)context.Policies.GetOrDefault(typeof(T), context.BuildKey) ??
+                     (T)context.Policies.GetOrDefault(typeof(T), context.BuildKey.Type);
 
             return policy;
         }
