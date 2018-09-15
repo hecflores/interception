@@ -6,15 +6,15 @@ using Unity.Policy;
 namespace Unity.Interception.Tests.TestSupport
 {
     /// <summary>
-    /// A custom collection wrapper over <see cref="IBuilderPolicy"/> objects.
+    /// A custom collection wrapper over <see cref="object"/> objects.
     /// </summary>
     public class PolicyList : IPolicyList
     {
         #region Fields
 
         private readonly IPolicyList _innerPolicyList;
-        private readonly IDictionary<PolicyKey, IBuilderPolicy> _policies = 
-            new ConcurrentDictionary<PolicyKey, IBuilderPolicy>(PolicyKeyEqualityComparer.Default);
+        private readonly IDictionary<PolicyKey, object> _policies = 
+            new ConcurrentDictionary<PolicyKey, object>(PolicyKeyEqualityComparer.Default);
 
         #endregion
 
@@ -73,7 +73,7 @@ namespace Unity.Interception.Tests.TestSupport
         }
 
 
-        public IBuilderPolicy Get(Type type, string name, Type policyInterface, out IPolicyList list)
+        public object Get(Type type, string name, Type policyInterface, out IPolicyList list)
         {
             list = null;
 
@@ -87,7 +87,7 @@ namespace Unity.Interception.Tests.TestSupport
         }
 
 
-        public void Set(Type type, string name, Type policyInterface, IBuilderPolicy policy)
+        public void Set(Type type, string name, Type policyInterface, object policy)
         {
             _policies[new PolicyKey(type, name, policyInterface)] = policy;
         }
