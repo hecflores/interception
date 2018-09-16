@@ -1,12 +1,10 @@
-﻿
-
-using System;
+﻿using System;
 using Unity.Builder;
 using Unity.Interception.ContainerIntegration.ObjectBuilder;
 using Unity.Interception.InterceptionBehaviors;
-using Unity.Interception.Utilities;
 using Unity.Lifetime;
 using Unity.Policy;
+using Unity.Policy.Lifetime;
 
 namespace Unity.Interception.ContainerIntegration
 {
@@ -37,8 +35,6 @@ namespace Unity.Interception.ContainerIntegration
         /// <param name="name"></param>
         protected InterceptionBehaviorBase(Type behaviorType, string name)
         {
-            Guard.ArgumentNotNull(behaviorType, "behaviorType");
-            Guard.TypeIsAssignable(typeof(IInterceptionBehavior), behaviorType, "behaviorType");
             _behaviorKey = new NamedTypeBuildKey(behaviorType, name);
         }
 

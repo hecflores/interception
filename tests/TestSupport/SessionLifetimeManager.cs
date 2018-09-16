@@ -1,11 +1,9 @@
-﻿
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
-using Unity;
 using Unity.Lifetime;
+using Unity.Policy.Lifetime;
 
 namespace Microsoft.Practices.Unity.TestSupport
 {
