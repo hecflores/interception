@@ -3,7 +3,7 @@ using Unity.Builder;
 using Unity.Interception.ContainerIntegration.ObjectBuilder;
 using Unity.Interception.InterceptionBehaviors;
 using Unity.Lifetime;
-using Unity.Policy;
+using Unity.Storage;
 using Unity.Policy.Lifetime;
 
 namespace Unity.Interception.ContainerIntegration
