@@ -4,11 +4,11 @@ using System.Linq;
 using System.Reflection;
 using Unity.Builder;
 using Unity.Builder.Selection;
-using Unity.Builder.Strategy;
 using Unity.Interception.InterceptionBehaviors;
 using Unity.Interception.Interceptors;
 using Unity.Policy;
 using Unity.Storage;
+using Unity.Strategies;
 
 namespace Unity.Interception.ContainerIntegration.ObjectBuilder
 {
@@ -171,7 +171,7 @@ namespace Unity.Interception.ContainerIntegration.ObjectBuilder
                 _originalConstructorSelectorPolicy = originalConstructorSelectorPolicy;
             }
 
-            public SelectedConstructor SelectConstructor<T>(ref T context) where T : IBuilderContext
+            public SelectedConstructor SelectConstructor<TContext>(ref TContext context) where TContext : IBuilderContext
             {
                 SelectedConstructor originalConstructor =
                     _originalConstructorSelectorPolicy.SelectConstructor(ref context);

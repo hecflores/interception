@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Builder;
-using Unity.Builder.Strategy;
 using Unity.Interception.InterceptionBehaviors;
 using Unity.Interception.Interceptors;
 using Unity.Policy;
 using Unity.Storage;
+using Unity.Strategies;
 
 namespace Unity.Interception.ContainerIntegration.ObjectBuilder
 {
