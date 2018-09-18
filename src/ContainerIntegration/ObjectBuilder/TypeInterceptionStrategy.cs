@@ -30,7 +30,7 @@ namespace Unity.Interception.ContainerIntegration.ObjectBuilder
         /// <remarks>In this class, PreBuildUp is responsible for figuring out if the
         /// class is proxyable, and if so, replacing it with a proxy class.</remarks>
         /// <param name="context">Context of the build operation.</param>
-        public override void PreBuildUp<T>(ref T context)
+        public override void PreBuildUp<TContext>(ref TContext context)
         {
             if (context.Existing != null)
             {
@@ -90,7 +90,7 @@ namespace Unity.Interception.ContainerIntegration.ObjectBuilder
         /// and if it was, wires up the handlers.</remarks>
         /// <param name="context">Context of the build operation.</param>
         /// <param name="pre"></param>
-        public override void PostBuildUp<T>(ref T context)
+        public override void PostBuildUp<TContext>(ref TContext context)
         {
             IInterceptingProxy proxy = context.Existing as IInterceptingProxy;
 
