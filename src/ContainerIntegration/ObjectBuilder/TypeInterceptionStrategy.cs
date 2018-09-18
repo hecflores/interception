@@ -171,10 +171,10 @@ namespace Unity.Interception.ContainerIntegration.ObjectBuilder
                 _originalConstructorSelectorPolicy = originalConstructorSelectorPolicy;
             }
 
-            public SelectedConstructor SelectConstructor(IBuilderContext context)
+            public SelectedConstructor SelectConstructor<T>(ref T context) where T : IBuilderContext
             {
                 SelectedConstructor originalConstructor =
-                    _originalConstructorSelectorPolicy.SelectConstructor(context);
+                    _originalConstructorSelectorPolicy.SelectConstructor(ref context);
 
                 return FindNewConstructor(originalConstructor, _interceptingType);
             }
