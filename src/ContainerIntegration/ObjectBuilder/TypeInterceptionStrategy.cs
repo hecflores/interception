@@ -39,7 +39,7 @@ namespace Unity.Interception.ContainerIntegration.ObjectBuilder
 
             Type typeToBuild = context.BuildKey.Type;
 
-            var interceptionPolicy = FindInterceptionPolicy<ITypeInterceptionPolicy>(context);
+            var interceptionPolicy = FindInterceptionPolicy<TContext, ITypeInterceptionPolicy>(ref context);
             if (interceptionPolicy == null)
             {
                 return;
@@ -51,7 +51,7 @@ namespace Unity.Interception.ContainerIntegration.ObjectBuilder
                 return;
             }
 
-            var interceptionBehaviorsPolicy = FindInterceptionPolicy<IInterceptionBehaviorsPolicy>(context);
+            var interceptionBehaviorsPolicy = FindInterceptionPolicy<TContext, IInterceptionBehaviorsPolicy>(ref context);
 
             IEnumerable<IInterceptionBehavior> interceptionBehaviors =
                 interceptionBehaviorsPolicy == null
@@ -63,7 +63,7 @@ namespace Unity.Interception.ContainerIntegration.ObjectBuilder
                         .Where(ib => ib.WillExecute);
 
             IAdditionalInterfacesPolicy additionalInterfacesPolicy =
-                FindInterceptionPolicy<IAdditionalInterfacesPolicy>(context);
+                FindInterceptionPolicy<TContext, IAdditionalInterfacesPolicy>(ref context);
 
             IEnumerable<Type> additionalInterfaces =
                 additionalInterfacesPolicy != null ? additionalInterfacesPolicy.AdditionalInterfaces : Type.EmptyTypes;
@@ -89,7 +89,6 @@ namespace Unity.Interception.ContainerIntegration.ObjectBuilder
         /// <remarks>In this class, PostBuildUp checks to see if the object was proxyable,
         /// and if it was, wires up the handlers.</remarks>
         /// <param name="context">Context of the build operation.</param>
-        /// <param name="pre"></param>
         public override void PostBuildUp<TContext>(ref TContext context)
         {
             IInterceptingProxy proxy = context.Existing as IInterceptingProxy;
@@ -116,7 +115,8 @@ namespace Unity.Interception.ContainerIntegration.ObjectBuilder
         }
 
 
-        private static TPolicy FindInterceptionPolicy<TPolicy>(IBuilderContext context)
+        private static TPolicy FindInterceptionPolicy<TContext, TPolicy>(ref TContext context)
+            where TContext : IBuilderContext
             where TPolicy : class, IBuilderPolicy
         {
             return (TPolicy)context.Policies.GetOrDefault(typeof(TPolicy), context.OriginalBuildKey) ??

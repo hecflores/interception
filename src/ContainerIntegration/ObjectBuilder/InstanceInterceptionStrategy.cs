@@ -22,7 +22,6 @@ namespace Unity.Interception.ContainerIntegration.ObjectBuilder
         /// phase and executes in reverse order from the PreBuildUp calls.
         /// </summary>
         /// <param name="context">Context of the build operation.</param>
-        /// <param name="pre"></param>
         public override void PostBuildUp<TContext>(ref TContext context)
         {
             // If it's already been intercepted, don't do it again.
@@ -32,23 +31,23 @@ namespace Unity.Interception.ContainerIntegration.ObjectBuilder
             }
 
             IInstanceInterceptionPolicy interceptionPolicy =
-                FindInterceptionPolicy<IInstanceInterceptionPolicy>(context, true);
+                FindInterceptionPolicy<TContext, IInstanceInterceptionPolicy>(ref context, true);
             if (interceptionPolicy == null)
             {
                 return;
             }
 
-            var interceptor = interceptionPolicy.GetInterceptor(context);
+            var interceptor = interceptionPolicy.GetInterceptor(ref context);
 
             IInterceptionBehaviorsPolicy interceptionBehaviorsPolicy =
-                FindInterceptionPolicy<IInterceptionBehaviorsPolicy>(context, true);
+                FindInterceptionPolicy<TContext, IInterceptionBehaviorsPolicy>(ref context, true);
             if (interceptionBehaviorsPolicy == null)
             {
                 return;
             }
 
             IAdditionalInterfacesPolicy additionalInterfacesPolicy =
-                FindInterceptionPolicy<IAdditionalInterfacesPolicy>(context, false);
+                FindInterceptionPolicy<TContext, IAdditionalInterfacesPolicy>(ref context, false);
             IEnumerable<Type> additionalInterfaces =
                 additionalInterfacesPolicy != null ? additionalInterfacesPolicy.AdditionalInterfaces : Type.EmptyTypes;
 
@@ -72,7 +71,8 @@ namespace Unity.Interception.ContainerIntegration.ObjectBuilder
             }
         }
 
-        private static T FindInterceptionPolicy<T>(IBuilderContext context, bool probeOriginalKey)
+        private static T FindInterceptionPolicy<TContext, T>(ref TContext context, bool probeOriginalKey) 
+            where TContext : IBuilderContext
             where T : class, IBuilderPolicy
         {
             // First, try for an original build key
