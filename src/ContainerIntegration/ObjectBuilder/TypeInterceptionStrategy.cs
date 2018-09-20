@@ -45,7 +45,7 @@ namespace Unity.Interception.ContainerIntegration.ObjectBuilder
                 return;
             }
 
-            var interceptor = interceptionPolicy.GetInterceptor(context);
+            var interceptor = interceptionPolicy.GetInterceptor(ref context);
             if (!interceptor.CanIntercept(typeToBuild))
             {
                 return;
@@ -59,7 +59,7 @@ namespace Unity.Interception.ContainerIntegration.ObjectBuilder
                         Enumerable.Empty<IInterceptionBehavior>()
                     :
                         interceptionBehaviorsPolicy.GetEffectiveBehaviors(
-                            context, interceptor, typeToBuild, typeToBuild)
+                            ref context, interceptor, typeToBuild, typeToBuild)
                         .Where(ib => ib.WillExecute);
 
             IAdditionalInterfacesPolicy additionalInterfacesPolicy =
@@ -78,7 +78,7 @@ namespace Unity.Interception.ContainerIntegration.ObjectBuilder
             Type interceptingType =
                 interceptor.CreateProxyType(typeToBuild, allAdditionalInterfaces);
 
-            DerivedTypeConstructorSelectorPolicy.SetPolicyForInterceptingType(context, interceptingType);
+            DerivedTypeConstructorSelectorPolicy.SetPolicyForInterceptingType(ref context, interceptingType);
         }
 
         /// <summary>
@@ -196,7 +196,8 @@ namespace Unity.Interception.ContainerIntegration.ObjectBuilder
                 return newConstructor;
             }
 
-            public static void SetPolicyForInterceptingType(IBuilderContext context, Type interceptingType)
+            public static void SetPolicyForInterceptingType<TContext>(ref TContext context, Type interceptingType) 
+                where TContext : IBuilderContext
             {
                 var currentSelectorPolicy =
                     (IConstructorSelectorPolicy)context.Policies.GetOrDefault(typeof(IConstructorSelectorPolicy),

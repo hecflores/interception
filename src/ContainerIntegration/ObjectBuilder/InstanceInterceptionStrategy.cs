@@ -56,7 +56,7 @@ namespace Unity.Interception.ContainerIntegration.ObjectBuilder
 
             IInterceptionBehavior[] interceptionBehaviors =
                 interceptionBehaviorsPolicy.GetEffectiveBehaviors(
-                    context, interceptor, typeToIntercept, implementationType)
+                    ref context, interceptor, typeToIntercept, implementationType)
                 .ToArray();
 
             if (interceptionBehaviors.Length > 0)

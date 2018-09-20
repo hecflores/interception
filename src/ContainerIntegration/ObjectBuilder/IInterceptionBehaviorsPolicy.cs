@@ -52,9 +52,9 @@ namespace Unity.Interception.ContainerIntegration.ObjectBuilder
         /// <param name="typeToIntercept">Type that interception was requested on.</param>
         /// <param name="implementationType">Type that implements the interception.</param>
         /// <returns></returns>
-        public static IEnumerable<IInterceptionBehavior> GetEffectiveBehaviors(this IInterceptionBehaviorsPolicy policy, 
-                                                                      IBuilderContext context, IInterceptor interceptor,
-                                                                          Type typeToIntercept, Type implementationType)
+        public static IEnumerable<IInterceptionBehavior> GetEffectiveBehaviors<TContext>(this IInterceptionBehaviorsPolicy policy, 
+                                                                      ref TContext context, IInterceptor interceptor,
+                                                                          Type typeToIntercept, Type implementationType) where TContext: IBuilderContext
         {
             return policy.GetEffectiveBehaviors(context.Container, interceptor, typeToIntercept, implementationType);
         }
