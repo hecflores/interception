@@ -1,4 +1,5 @@
 ﻿using System;
+using Unity.Build.Policy;
 using Unity.Interception.ContainerIntegration.ObjectBuilder;
 using Unity.Interception.Interceptors;
 using Unity.Interception.Interceptors.InstanceInterceptors;
@@ -13,8 +14,8 @@ namespace Unity.Interception.ContainerIntegration
     /// Stores information about the <see cref="IInterceptor"/> to be used to intercept an object and
     /// configures a container accordingly.
     /// </summary>
-    /// <seealso cref="IInterceptionBehavior"/>
-    public class Interceptor : InterceptionMember
+    /// <seealso cref="InterceptionBehaviors.IInterceptionBehavior"/>
+    public class Interceptor : InterceptionMember, IRegisterPolicies
     {
         private readonly IInterceptor _interceptor;
         private readonly Type _type;
@@ -65,7 +66,8 @@ namespace Unity.Interception.ContainerIntegration
         /// <param name="implementationType">Type to register.</param>
         /// <param name="name">Name used to resolve the type object.</param>
         /// <param name="policies">Policy list to add policies to.</param>
-        public override void AddPolicies<T>(Type serviceType, Type implementationType, string name, ref T policies)
+        public void AddPolicies<T>(Type serviceType, Type implementationType, string name, ref T policies)
+            where T : IPolicyList
         {
             if (IsInstanceInterceptor)
             {

@@ -7,6 +7,7 @@ using Unity.Interception.Interceptors.TypeInterceptors;
 using Unity.Interception.Utilities;
 using Unity.Storage;
 using Unity.Registration;
+using Unity.Build.Policy;
 
 namespace Unity.Interception.ContainerIntegration
 {
@@ -17,7 +18,7 @@ namespace Unity.Interception.ContainerIntegration
     /// interceptor for a type - this will be used regardless of which 
     /// name is used to resolve the type.
     /// </summary>
-    public class DefaultInterceptor : InjectionMember
+    public class DefaultInterceptor : InjectionMember, IRegisterPolicies
     {
         private readonly IInterceptor _interceptor;
         private readonly NamedTypeBuildKey _interceptorKey;
@@ -68,7 +69,8 @@ namespace Unity.Interception.ContainerIntegration
         /// <param name="implementationType">Type of concrete type being registered.</param>
         /// <param name="name">Name used to resolve the type object.</param>
         /// <param name="policies">Policy list to add policies to.</param>
-        public override void AddPolicies<T>(Type serviceType, Type implementationType, string name, ref T policies)
+        public void AddPolicies<T>(Type serviceType, Type implementationType, string name, ref T policies) 
+            where T : IPolicyList
         {
             if (IsInstanceInterceptor)
             {

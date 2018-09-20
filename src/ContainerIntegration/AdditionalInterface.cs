@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using Unity.Build.Policy;
 using Unity.Interception.ContainerIntegration.ObjectBuilder;
 using Unity.Interception.Properties;
 using Unity.Storage;
@@ -10,7 +11,7 @@ namespace Unity.Interception.ContainerIntegration
     /// Stores information about a single <see cref="Type"/> to be an additional interface for an intercepted object and
     /// configures a container accordingly.
     /// </summary>
-    public class AdditionalInterface : InterceptionMember
+    public class AdditionalInterface : InterceptionMember, IRegisterPolicies
     {
         private readonly Type _additionalInterface;
 
@@ -46,10 +47,10 @@ namespace Unity.Interception.ContainerIntegration
         /// <param name="implementationType">Type to register.</param>
         /// <param name="name">Name used to resolve the type object.</param>
         /// <param name="policies">Policy list to add policies to.</param>
-        public override void AddPolicies<T>(Type serviceType, Type implementationType, string name, ref T policies)
+        public void AddPolicies<T>(Type serviceType, Type implementationType, string name, ref T policies) 
+            where T : IPolicyList
         {
-            AdditionalInterfacesPolicy policy =
-                AdditionalInterfacesPolicy.GetOrCreate(policies, serviceType, name);
+            AdditionalInterfacesPolicy policy = AdditionalInterfacesPolicy.GetOrCreate(policies, serviceType, name);
             policy.AddAdditionalInterface(_additionalInterface);
         }
     }

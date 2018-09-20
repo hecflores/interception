@@ -1,10 +1,10 @@
 ﻿using System;
+using Unity.Build.Policy;
 using Unity.Builder;
 using Unity.Interception.ContainerIntegration.ObjectBuilder;
 using Unity.Interception.InterceptionBehaviors;
-using Unity.Lifetime;
-using Unity.Storage;
 using Unity.Policy.Lifetime;
+using Unity.Storage;
 
 namespace Unity.Interception.ContainerIntegration
 {
@@ -12,7 +12,7 @@ namespace Unity.Interception.ContainerIntegration
     /// Base class for injection members that allow you to add
     /// interception behaviors.
     /// </summary>
-    public abstract class InterceptionBehaviorBase : InterceptionMember
+    public abstract class InterceptionBehaviorBase : InterceptionMember, IRegisterPolicies
     {
         private readonly NamedTypeBuildKey _behaviorKey;
         private readonly IInterceptionBehavior _explicitBehavior;
@@ -56,7 +56,8 @@ namespace Unity.Interception.ContainerIntegration
         /// <param name="implementationType">Type to register.</param>
         /// <param name="name">Name used to resolve the type object.</param>
         /// <param name="policies">Policy list to add policies to.</param>
-        public override void AddPolicies<T>(Type serviceType, Type implementationType, string name, ref T policies)
+        public void AddPolicies<T>(Type serviceType, Type implementationType, string name, ref T policies)
+            where T: IPolicyList
         {
             if (_explicitBehavior != null)
             {
