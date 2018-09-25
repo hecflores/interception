@@ -1,4 +1,5 @@
 ﻿using System;
+using Unity.Build.Policy;
 using Unity.Builder;
 using Unity.Interception.ContainerIntegration.ObjectBuilder;
 using Unity.Interception.Interceptors;
@@ -6,8 +7,6 @@ using Unity.Interception.Interceptors.InstanceInterceptors;
 using Unity.Interception.Interceptors.TypeInterceptors;
 using Unity.Interception.Utilities;
 using Unity.Storage;
-using Unity.Registration;
-using Unity.Build.Policy;
 
 namespace Unity.Interception.ContainerIntegration
 {
